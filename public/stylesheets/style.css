@@ -6,3 +6,10 @@ body {
 a {
   color: #00B7FF;
 }
+li.list-group-item.img{
+  height: 220px;
+}
+img{
+  width: 100%;
+  height: 100%;
+}

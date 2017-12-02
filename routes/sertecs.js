@@ -47,22 +47,14 @@ router.post('/',type, function(req, res, next) {
     }
   });
 });
-router.put('/:id', function(req, res, next) {
+router.put('/:id', type ,function(req, res, next) {
   console.log("PUT");
-
+  console.log(req.body);
   let inventory = {
     articulo:req.body.articulo,
     cantidad:req.body.cantidad,
     precio:req.body.precio
   };
-  if(req.file){
-    inventory.img = {
-      data : fs.readFileSync(req.file.path),
-      mimetype : req.file.mimetype
-    };
-  }
-
-
   Inventory.update({_id:req.params.id},{$set:inventory},(err)=>{
     if (err) {
       return res.sendStatus(400);

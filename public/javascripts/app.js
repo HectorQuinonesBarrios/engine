@@ -23,26 +23,21 @@ app.factory('newService',["$http", function($http){
     postObject : function(payload,route){
       keys = Object.keys(payload);
       form = new FormData();
-      console.log(payload);
       for(let i = 0; i < keys.length; i++){
-        console.log(keys[i], payload[keys[i]]);
         form.append(keys[i], payload[keys[i]]);
       }
-      console.log(form);
       return $http.post('/'+route,form, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
       });
     },
-    putObject : function(payload,route){
+    putObject : function(payload,route,id){
       keys = Object.keys(payload);
       form = new FormData();
       for(let i = 0; i < keys.length; i++){
-        console.log(keys[i], payload[keys[i]]);
         form.append(keys[i], payload[keys[i]]);
       }
-      console.log(form);
-      return $http.put('/'+route+'/'+payload._id,form, {
+      return $http.put('/'+route+'/'+id,form, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
       });
@@ -57,48 +52,37 @@ app.controller("newController",["newService","$scope",function(newService, $scop
   $scope.payload = {};
   $scope.route = "";
   $scope.show = false;
+  $scope.showInput = [];
   $scope.init = function (route){
     newService.getObject(route).then(function(objects) {
-      console.log(objects.data);
       $scope.objects = objects.data;
+      for (let i = 0; i < $scope.objects.length; i++) {
+        $scope.objects[i].showInput = false;
+      }
       $scope.show = true;
     });
   }
   $scope.postObject = function(payload,route) {
-
-    console.log("TRATANDO DE HACER POST");
     newService.postObject(payload,route).
       then(function successCallback(objects){
-        console.log("SE HIZO POST", objects);
-
         let object = objects.data.object;
         object.img.data = objects.data.base64;
-        console.log(object);
-
         $scope.objects.push(object);
         $scope.payload = {};
         return objects;
       }, function errorCallback(error) {
-        console.log("ERROR POST");
-
         return error;
       });
   }
-  $scope.putObject = function(payload,route) {
+  $scope.putObject = function(payload,route,id,index) {
 
     console.log("TRATANDO DE HACER PUT");
-    newService.postObject(payload,route).
+    newService.putObject(payload,route,id).
       then(function successCallback(objects){
+        $scope.objects[index].showInput = !$scope.objects[index].showInput;
         console.log("SE HIZO PUT");
-        let object = objects.data.object;
-        object.img.data = objects.data.base64;
-        console.log(object);
-
-        $scope.objects.push(object);
-        $scope.payload = {};
-        return objects;
       }, function errorCallback(error) {
-        console.log("ERROR POST");
+        console.log("ERROR PUT");
 
         return error;
       });
@@ -111,5 +95,9 @@ app.controller("newController",["newService","$scope",function(newService, $scop
       function errorCallback(err) {
         console.log(err);
       });
+  }
+  $scope.showInput = false;
+ $scope.toggleShowInput = function(index){
+      $scope.objects[index].showInput = !$scope.objects[index].showInput;
   }
 }]);

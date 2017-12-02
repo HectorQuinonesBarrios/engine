@@ -50,6 +50,18 @@ router.post('/', type,function(req,res,next) {
     return res.status(200).json({object:data,base64:data.img.data.toString('base64')});
   });
 });
+router.put('/:id', type,function(req,res,next) {
+  console.log(req.body);
+  let inventory = {
+    articulo:req.body.articulo,
+    cantidad:req.body.cantidad,
+    precio:req.body.precio,
+  };
+  Inventory.update(inventory,{where:{id:req.params.id}}).then((object, raw)=>{
+    console.log(object,raw);
+    return res.sendStatus(200);
+  });
+});
 router.delete('/:id',function(req,res,next) {
   Inventory.destroy({
     where: {
