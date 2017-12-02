@@ -1,0 +1,23 @@
+extends ../layout
+block content
+  .wrapper.container-fluid
+    .col-xl-
+      select(ng-model='route', ng-change="init(route)")
+        optgroup(label="Grupos")
+          option(value='setiva') setiva
+          option(value='sertecs') sertecs
+          option(value='sauri') sauri
+    .col-xl-
+      include blank
+    .col-xl-    
+      ul.list-group(ng-repeat='object in objects')
+        li.list-group-item  
+          h1 {{object.articulo}}
+        li.list-group-item
+          h3 {{object.cantidad}}
+        li.list-group-item
+          h4 {{object.precio | currency}}
+        li.list-group-item
+          img(data-ng-src='data:{{object.img.mimetype}};base64,{{object.img.data}}', width="220px", length="100px")
+        button.btn.btn-warning(ng-click="putObject(object._id, route)") Editar
+        button.btn.btn-danger(ng-click="deleteObject(object._id, objects, $index, route)") Borrar

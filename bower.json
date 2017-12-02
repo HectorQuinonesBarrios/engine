@@ -1,0 +1,17 @@
+{
+  "name": "engine",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Hector Quinones <hector.quinones.barrios@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

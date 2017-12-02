@@ -1,0 +1,14 @@
+form
+  .form-group(ng-show="show")
+    label(for="articulo") Articulo
+    input.form-control(type='text', name='articulo', placeholder='articulo', ng-model='payload.articulo',required)
+    label(for="cantidad") Cantidad
+    input.form-control(type='number', name='cantidad', placeholder='cantidad', ng-model='payload.cantidad',required)
+    label(for="precio") Precio
+    .input-group  
+      span.input-group-addon $
+      input.form-control(type='number', name='precio', placeholder='precio', ng-model='payload.precio',required)
+      span.input-group-addon .00
+    label(for="file") Imagen
+    input.form-control-file(type='file', name='file', accept='image/*', file-model='payload.file',required)
+    button.btn.btn-primary.form-control(ng-click='postObject(payload,route);angular.copy(files)', type="reset") submit
